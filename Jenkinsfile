@@ -18,11 +18,10 @@ pipeline {
         }
       }
     }
-    stage('Test image') {
+stage('Test image') {
         steps{
         script {
-        
-            echo "Tests passed"
+                    echo "Tests passed"
         }
       }
     }
@@ -32,8 +31,14 @@ pipeline {
           docker.withRegistry( '', registryCredential ) {
             dockerImage.push()
             dockerImage.push('latest')
+
           }
         }
+      }
+    }
+        stage('Deploy image') {
+      steps{
+        bat "docker run -d $registry:$BUILD_NUMBER"
       }
     }
   }
