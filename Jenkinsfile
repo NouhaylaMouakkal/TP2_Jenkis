@@ -8,7 +8,7 @@ pipeline {
   stages {
     stage('Cloning Git') {
       steps {
-        git 'https://github.com/NouhaylaMouakkal/TP2_Jenkis.git'
+        git branch: 'master', url: 'https://github.com/NouhaylaMouakkal/TP2_Jenkis.git'
       }
     }
     stage('Building image') {
@@ -18,7 +18,7 @@ pipeline {
         }
       }
     }
-stage('Test image') {
+    stage('Test image') {
         steps{
         script {
         
@@ -26,11 +26,12 @@ stage('Test image') {
         }
       }
     }
-    stage('Deploy Image') {
+    stage('Publish Image') {
       steps{
         script {
           docker.withRegistry( '', registryCredential ) {
             dockerImage.push()
+            dockerImage.push('latest')
           }
         }
       }
